@@ -9,6 +9,34 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Lato:wght@300;400&display=swap"
         rel="stylesheet" />
+    <meta charset="UTF-8">
+    <title>Botón de WhatsApp</title>
+    <style>
+        /* Estilos para el botón */
+        .btn-whatsapp {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #128c7e;
+        }
+    </style>
 </head>
 
 <body>
@@ -227,6 +255,11 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <a href="https://wa.me/1234567890?text=Hola,%20me%20gustaría%20más%20información" 
+       class="btn-whatsapp" 
+       target="_blank">
+        W
+    </a>
 </body>
 
 <canvas id="particulas"></canvas>
