@@ -1,290 +1,115 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Para ti, siempre</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Lato:wght@300;400&display=swap"
-        rel="stylesheet" />
-    <meta charset="UTF-8">
-    <title>Botón de WhatsApp</title>
-    <style>
-        /* Estilos para el botón */
-        .btn-whatsapp {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 40px;
-            right: 40px;
-            background-color: #25d366;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 3px #999;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-
-        .btn-whatsapp:hover {
-            background-color: #128c7e;
-        }
-    </style>
+    <title>Para ti, siempre | Bitácora de Escritos</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=EB+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cormorant+Infant:ital,wght@0,400;1,300;1,400&display=swap" rel="stylesheet" />
 </head>
-
 <body>
 
-    <!-- HERO -->
-    <section class="hero">
+    <canvas id="particulas"></canvas>
+
+    <nav class="nav-dots">
+        <div class="dot activo" data-target="hero"></div>
+        <div class="dot" data-target="galeria"></div>
+        <div class="dot" data-target="blog"></div>
+        <div class="dot" data-target="videos"></div>
+        <div class="dot" data-target="carta"></div>
+    </nav>
+
+    <section class="hero" id="hero">
         <div class="hero-content">
-            <p class="hero-sub">dedicado a</p>
-            <h1 class="hero-name">La Mamashita Juana</h1>
-            <p class="hero-quote">"Algunos momentos son tan perfectos que el tiempo decide quedarse quieto."</p>
-            <a href="#recuerdos" class="btn-scroll">Revivir juntos ↓</a>
+            <p class="hero-dedicatoria">Dedicado a la musa de estas líneas</p>
+            <h1 class="hero-nombre">Cartas & <span class="acento">Relatos</span></h1>
+            <div class="hero-linea"></div>
+            <p class="hero-frase">"Algunos momentos son tan perfectos que el tiempo decide quedarse quieto."</p>
+            <a href="#blog" class="btn-scroll">Leer escritos ↓</a>
         </div>
-        <div class="hero-overlay"></div>
-        <img src="img/portada.jpg" alt="portada" class="hero-bg" />
+        <img src="img/portada.jpg" alt="Portada romántica" class="hero-bg" />
     </section>
 
-    <!-- GALERÍA -->
     <section class="seccion" id="galeria">
         <h2 class="titulo-seccion">Momentos</h2>
-        <p class="subtitulo-seccion">Me dices que te gusta guardar los momentos</p>
+        <p class="subtitulo-seccion">Cada foto guarda una historia</p>
         <div class="galeria-grid">
             <div class="galeria-item" onclick="abrirLightbox(this)">
-                <img src="img/Fotoa.jpeg" alt="Recuerdo A" />
-                <div class="galeria-overlay"><span>Ver</span></div>
+                <img src="img/foto1.jpg" alt="Recuerdo 1" />
+                <div class="galeria-overlay"><span>Expandir</span></div>
             </div>
             <div class="galeria-item" onclick="abrirLightbox(this)">
-                <img src="img/Fotob.jpeg" alt="Recuerdo b" />
-                <div class="galeria-overlay"><span>Ver</span></div>
-        
+                <img src="img/foto2.jpg" alt="Recuerdo 2" />
+                <div class="galeria-overlay"><span>Expandir</span></div>
             </div>
             <div class="galeria-item" onclick="abrirLightbox(this)">
-                <img src="img/Fotoc.jpeg" alt="Recuerdo c" />
-                <div class="galeria-overlay"><span>Ver</span></div>
-            </div>
-        
-            <div class="galeria-item" onclick="abrirLightbox(this)">
-                <img src="img/Fotod.jpeg" alt="Recuerdo d" />
-                <div class="galeria-overlay"><span>Ver</span></div>
-            </div>
-        
+                <img src="img/foto3.jpg" alt="Recuerdo 3" />
+                <div class="galeria-overlay"><span>Expandir</span></div>
             </div>
             <div class="galeria-item" onclick="abrirLightbox(this)">
-                <img src="img/Foto2.jpg" alt="Recuerdo 2" />
-                <div class="galeria-overlay"><span>Ver</span></div>
+                <img src="img/foto4.jpg" alt="Recuerdo 4" />
+                <div class="galeria-overlay"><span>Expandir</span></div>
             </div>
-            <div class="galeria-item" onclick="abrirLightbox(this)">
-                <img src="img/Foto3.jpg" alt="Recuerdo 3" />
-                <div class="galeria-overlay"><span>Ver</span></div>
-            </div>
-            <div class="galeria-item" onclick="abrirLightbox(this)">
-                <img src="img/Foto4.jpg" alt="Recuerdo 4" />
-                <div class="galeria-overlay"><span>Ver</span></div>
-            </div>
-            <div class="galeria-item" onclick="abrirLightbox(this)">
-                <img src="img/Foto5.jpg" alt="Recuerdo 5" />
-                <div class="galeria-overlay"><span>Ver</span></div>
-            </div>
-            <div class="galeria-item" onclick="abrirLightbox(this)">
-                <img src="img/Foto6.jpg" alt="Recuerdo 6" />
-                <div class="galeria-overlay"><span>Ver</span></div>
-            </div>
-            <div class="galeria-item" onclick="abrirLightbox(this)">
-                <img src="img/Foto7.jpg" alt="Recuerdo 6" />
-                <div class="galeria-overlay"><span>Ver</span></div>
-            </div>
-            <div class="galeria-item" onclick="abrirLightbox(this)">
-                <img src="img/Foto8.jpg" alt="Recuerdo 6" />
-                <div class="galeria-overlay"><span>Ver</span></div>
-            </div>
-            <div class="galeria-item" onclick="abrirLightbox(this)">
-                <img src="img/Fotoa.jpeg" alt="Recuerdo 6" />
-                <div class="galeria-overlay"><span>Ver</span></div>
-            </div>         
         </div>
     </section>
 
-    <!-- LIGHTBOX -->
     <div class="lightbox" id="lightbox" onclick="cerrarLightbox()">
         <span class="lightbox-cerrar">&times;</span>
-        <img id="lightbox-img" src="" alt="foto ampliada" />
+        <img id="lightbox-img" src="" alt="Foto ampliada" />
     </div>
 
-    <!-- RECUERDOS -->
-    <section class="seccion seccion-oscura" id="recuerdos">
-        <h2 class="titulo-seccion">Recuerdos</h2>
-        <p class="subtitulo-seccion">Los instantes que me cambiaron</p>
-        <div class="recuerdos-grid">
+    <section class="seccion seccion-oscura" id="blog">
+        <h2 class="titulo-seccion">Antología Personal</h2>
+        <p class="subtitulo-seccion">Escritos, poemas y relatos constantes</p>
+        
+        <div class="blog-filtros">
+            <button class="filtro-btn activo" data-categoria="todos">Todos</button>
+            <button class="filtro-btn" data-categoria="Relato">Relatos</button>
+            <button class="filtro-btn" data-categoria="Poema">Poemas</button>
+            <button class="filtro-btn" data-categoria="Bitácora">Bitácoras</button>
+        </div>
 
-            <div class="recuerdo-card">
-                <span class="recuerdo-fecha">Lugar: Un sueño</span>
-                <h3 class="recuerdo-titulo">La primera vez</h3>
-                <p class="recuerdo-texto"> Estoy sentado frente al tablero, lo veo relleno con tinta de marcador y
-                    cubierto de figuras
-                    referentes a
-                    pasadas sociedades; estoy sentado escuchando al maestro que habla sobre algún conocimiento; nos
-                    dice preocupado que aquí en la academia este conocimiento no sirve de nada; que el verdadero
-                    conocimiento se encuentra allí afuera y regado por todas partes; disfrazado con múltiples formas,
-                    Que podríamos buscarlo afuera de esas cuatro paredes.</p>
-            </div>
-
-            <div class="recuerdo-card">
-                <span class="recuerdo-fecha">Algún día, Tarde-noche</span>
-                <h3 class="recuerdo-titulo">Ese viaje inesperado</h3>
-                <p class="recuerdo-texto">Saco la mirada de ese tablero por un instante y la fijo sobre el cuaderno que
-                    está nuevo y qué he
-                    dejado abierto sobre el pupitre; la blancura y el vacío de la hoja me asusta muchísimo, pero logro
-                    por
-                    un instante que en mi cabeza ya no retumbe la voz del profesor; ni de los molestos compañeros de
-                    salón; ni de las cuerdas de la guitarra que vibran y se amplifican abriéndose paso por la madera
-                    pasando mis huesos y calándose en tu corazón. Ahora, casi todo está en silencio; todo se va apagando
-                    por aquí; todo menos el sonido de las palabras que te dije y que me dijiste aquella tarde mientras
-                    pedaleábamos por la carrera séptima; unas palabras a las que se unen muchas otras antes dichas, que
-                    rosaron nuestros labios; palabras bien y mal dichas.</p>
-            </div>
-
-            <div class="recuerdo-card">
-                <span class="recuerdo-fecha">Vía la calera, tarde - noche</span>
-                <h3 class="recuerdo-titulo">La noche que más reímos</h3>
-                <p class="recuerdo-texto">Estamos los dos de nuevo, rodando por la carretera; hace frio, es de noche,
-                    pero es muy clara con
-                    apenas media luna; luces de farolas de autos pasan de vez en cuando en sentido contrario al pueblito
-                    a donde nos dirigimos. Un destino que elegíamos varias veces por alguna razón. Tal vez el estar
-                    lejos
-                    nos permitía ser nosotros mismos, nosotros juntos. La carretera es muy larga y no veo el destino,
-                    aún
-                    no llegamos porque al parecer queda mucho camino aún: giro a la izquierda, otro a la derecha,
-                    nuevamente izquierda y derecha y derecha nuevamente.
-                    Metes las manos en los bolsillos de mi chaqueta para resguardarte del frio y ese simple contacto me
-                    calienta hasta el alma; las palabras que ahora salen rasgan mis labios y esta vez son palabras
-                    hermosas y bien dichas, me siento orgulloso de ellas porque las has entendido bien.
-                    El escenario cambia de nuevo y esta vez no estoy seguro de estar soñando.
-                    El sudor frío recorre mi cuerpo y me siento empapado, extrañamente feliz y triste; corro a buscar un
-                    bolígrafo y una hoja para que el sueño no se vaya del todo. Me recuerda al eterno retorno o la
-                    naturaleza cíclica de las cosas; una serpiente que se devora a sí misma desde la cola, la unidad de
-                    todaslas cosas, materiales y espirituales que no desaparecen nunca,sino que continúan en un ciclo
-                    perpetuo de creación y destrucción.
-                </p>
-            </div>
-
+        <div class="recuerdos-lista" id="blog-container">
+            <div class="loading-text">Abriendo el tintero...</div>
         </div>
     </section>
 
-    <!-- VIDEOS -->
     <section class="seccion" id="videos">
         <h2 class="titulo-seccion">En movimiento</h2>
         <p class="subtitulo-seccion">Porque algunas cosas no caben en una foto</p>
         <div class="videos-grid">
-
             <div class="video-wrapper">
                 <video controls preload="metadata" poster="img/foto1.jpg">
                     <source src="videos/recuerdo1.mp4" type="video/mp4">
                     Tu navegador no soporta video HTML5.
                 </video>
-                <p class="video-caption">Aloras dedicandonos un temón</p>
+                <p class="video-caption">Nuestros silencios en vídeo</p>
             </div>
-
             <div class="video-wrapper">
                 <a href="https://photos.app.goo.gl/58pGDxDEBWvkjDhy5" target="_blank" class="video-btn">
                     <span class="video-play">▶</span>
-                    <span class="video-btn-texto">Reproducir recuerdo</span>
+                    <span class="video-btn-texto">Ver álbum completo</span>
                 </a>
-                <p class="video-caption">Algo para alivianarnos de puro recuerdo</p>
+                <p class="video-caption">Nube de recuerdos compartidos</p>
             </div>
-
         </div>
     </section>
 
-    <!-- CARTA FINAL -->
     <section class="seccion seccion-carta" id="carta">
         <div class="carta-contenido">
             <p class="carta-para">Para ti,</p>
             <p class="carta-texto">
-                Para mi siempre amada Juanita;
-                La historia de amor más hermosa de la creación no tiene conclusión, no hay final; porque no lo
-                recuerdo. Sin embargo; el principio, bajo una torrencial lluvia de marzo en la que parecía que el cielo
-                se desplomaba encima nuestro marcó lo que sería un tiempo hermoso.
-                Las salidas y llegadas tarde a nuestras casas, las noches en las que nos perdíamos entre el tráfico a
-                casi toda velocidad (de vez en cuando las cambiábamos porsabanas y amor delicioso entre nuestros
-                sexos) estas noches maravillosas en las que recorría todo y absolutamente todo tu cuerpo.
-                Recordarte también por su puesto es eso, tu hermosa piel blanca con constelaciones aún no
-                descubiertas, tus labios, tus senos que llamaban a seguir lamiendo hasta que el néctar aparecía entre
-                los dos. Aquella mañana en la que me dejaste verte desnuda, aquella madrugada con la intención de
-                negarnos ese momento; aquella mañana que llevó una lucha que no te podré decir nunca.
-                ¿En qué momento se quiso transformar en otras cosas?
-                La historia de amor más hermosa de la creación no tiene conclusión, no hay final, porque no lo quiero
-                recordar.
-                Juntos de la mano, con un candado que al igual que este final,su llave no la recuerdo, y por eso, allí
-                quedará por siempre sellado; agarrado con su bracito desesperado a la malla verde; nunca antes
-                había entendido tanto el cómo se podría sentir aquel pequeño candado con dos mitades, como un
-                eclipse, como tu y como yo: blanco y negro.
-                Hoy soy ese candado y tu esa malla verde.
-                ¿En qué momento se han perdido esas dos mitades que completaban uno solo?
-                Ahora es tarde, esta mañana hicimos el amor por primera vez; ni la noche, ni tu ni yo queremos que se
-                termine, no quieren dejarnos ir; mientras tanto en algún teléfono suena aquella canción “…Ella es de
-                marte y yo de venus… primero amarte y luego vemos…”
-                La historia de amor mas hermosa de la creación no está concluida, no hay final.
-                ¿En qué momento se pierden las personas y las cosas?
-                Lagrimas y sensaciones vacías entre las mitades, odios y perdones, culpas y descaros, palabras y
-                poemas; ¿en qué momento se dejaron de emitir? Porqué pasa lo que pasa.
-                El verdadero error es dejar perderse, pero la gran y verdadera tragedia es cuando esas mitades
-                perfectas se aman, pero insisten tercamente en perderse.
-                Juanita, nunca antes había amado tan fuerte y locamente; nunca antes le di tanto placer y tristeza a
-                algún ser. No me dejes aquí tirado entre estas líneas; tienes el poder de transgredir y dejarme luchar
-                por tus heridas; no me dejes tirado entre estas líneas, no ahora que se donde puedo amarte más
-                fuerte.
-                ¡Se le ama hermosamente!
-                Por siempre tu sagrado polli. .
+                La historia de amor más hermosa de la creación no tiene conclusión, no hay final... Juntos de la mano, con un candado que al igual que este final, su llave no la recuerdo, y por eso, allí quedará por siempre sellado... Hoy soy ese candado y tu esa malla verde.
             </p>
+            <div class="carta-linea"></div>
             <p class="carta-firma">— Con todo mi amor,<br /><em>Tu siempre "polli" Camilo </em></p>
         </div>
     </section>
 
     <footer class="footer">
-        <p>Hecho con amor &hearts; · Para siempre</p>
+        <p>Hecho con amor &hearts; · Mente y Código para siempre</p>
     </footer>
 
-    <a href="https://wa.me/573014295058?text=Hola%20Polli,%20leí%20tus%20escritos..." 
-       class="btn-whatsapp" 
-       target="_blank"
-       rel="noopener noreferrer">
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
-  <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.06 3.973L0 16l4.104-1.076a7.864 7.864 0 0 0 3.886 1.02h.003c4.369 0 7.926-3.559 7.93-7.93a7.856 7.856 0 0 0-2.322-5.688zM7.994 14.527a6.525 6.525 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.512 6.512 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
-</svg>
-    </a>
-
-    <canvas id="particulas"></canvas>
-
-    <nav class="nav-dots">
-        <div class="dot activo"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-    </nav>
-
-    <script src="js/main.js"></script>
+    <script src="main.js"></script>
 </body>
-</html>
-</body>
-
-<canvas id="particulas"></canvas>
-
-<nav class="nav-dots">
-    <div class="dot activo"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-</nav>
-
 </html>
