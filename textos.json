@@ -4,6 +4,20 @@
     "fecha": "Lugar: Un sueño",
     "titulo": "La primera vez",
     "categoria": "Relato",
-    "texto": "Estoy sentado frente al tablero, lo veo relleno con tinta de marcador y cubierto de figuras referentes a pasadas sociedades..."
+    "texto": "Estoy sentado frente al tablero, lo veo relleno con tinta de marcador y cubierto de figuras referentes a pasadas sociedades; estoy sentado escuchando al maestro que habla sobre algún conocimiento; nos dice preocupado que aquí en la academia este conocimiento no sirve de nada; que el verdadero conocimiento se encuentra allí afuera y regado por todas partes..."
+  },
+  {
+    "id": 2,
+    "fecha": "Marzo 2023",
+    "titulo": "Ese viaje inesperado",
+    "categoria": "Poema",
+    "texto": "Saco la mirada de ese tablero por un instante y la fijo sobre el cuaderno que está nuevo y qué he dejado abierto sobre el pupitre; la blancura y el vacío de la hoja me asusta muchísimo, pero logro por un instante que en mi cabeza ya no retumbe la voz del profesor..."
+  },
+  {
+    "id": 3,
+    "fecha": "Diciembre 2023",
+    "titulo": "La noche que más reímos",
+    "categoria": "Bitácora",
+    "texto": "Estamos los dos de nuevo, rodando por la carretera; hace frio, es de noche, pero es muy clara con apenas media luna; luces de farolas de autos pasan de vez en cuando en sentido contrario al pueblito a donde nos dirigimos..."
   }
 ]
