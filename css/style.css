@@ -1,385 +1,134 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=EB+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cormorant+Infant:ital,wght@0,400;1,300;1,400&display=swap');
+// ===== PARTÍCULAS FLOTANTES (Fondo Orgánico) =====
+const canvas = document.getElementById('particulas');
+const ctx = canvas.getContext('2d');
 
-:root {
-  --negro-tinta: #0d0a0e;
-  --vino-profundo: #1a0a12;
-  --vino-medio: #2d1020;
-  --rosado-ceniza: #c4909a;
-  --rosado-palido: #e8c4cc;
-  --dorado-viejo: #b8943f;
-  --dorado-claro: #d4b060;
-  --marfil: #f0e8d8;
-  --marfil-apagado: #c8bca8;
-  --font-titulo: 'Playfair Display', serif;
-  --font-cuerpo: 'EB Garamond', serif;
-  --font-carta: 'Cormorant Infant', serif;
+function ajustarCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+ajustarCanvas();
+window.addEventListener('resize', ajustarCanvas);
+
+const particulas = Array.from({ length: 45 }, () => ({
+  x: Math.random() * window.innerWidth,
+  y: Math.random() * window.innerHeight,
+  r: Math.random() * 1.2 + 0.4,
+  vx: (Math.random() - 0.5) * 0.15,
+  vy: -Math.random() * 0.25 - 0.05,
+  op: Math.random() * 0.4 + 0.1,
+  pulso: Math.random() * Math.PI * 2
+}));
+
+function animarParticulas() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particulas.forEach(p => {
+    p.pulso += 0.005;
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.y < -5) { p.y = canvas.height + 5; p.x = Math.random() * canvas.width; }
+    if (p.x < 0) p.x = canvas.width;
+    if (p.x > canvas.width) p.x = 0;
+    
+    const opActual = p.op * (0.5 + 0.5 * Math.sin(p.pulso));
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(212, 176, 96, ${opActual})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(animarParticulas);
+}
+animarParticulas();
+
+// ===== SISTEMA DE CARGA DEL BLOG DINÁMICO =====
+let listaEscritos = [];
+
+async function cargarBlog() {
+  const container = document.getElementById('blog-container');
+  try {
+    // Busca el archivo de configuración de textos (Subidas sin programar HTML)
+    const respuesta = await fetch('textos.json');
+    if (!respuesta.ok) throw new Error('No se encontró el tintero de datos.');
+    listaEscritos = await respuesta.json();
+    renderizarEscritos(listaEscritos);
+  } catch (error) {
+    console.error(error);
+    container.innerHTML = `<div class="loading-text">De momento las palabras se resguardan en papel...</div>`;
+  }
 }
 
-/* ===== ESTILOS BASE ===== */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+function renderizarEscritos(datos) {
+  const container = document.getElementById('blog-container');
+  container.innerHTML = '';
+  
+  if(datos.length === 0) {
+    container.innerHTML = `<div class="loading-text">No hay escritos en esta categoría aún.</div>`;
+    return;
+  }
+
+  datos.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'recuerdo-card';
+    card.innerHTML = `
+      <div class="recuerdo-meta">
+        <span class="recuerdo-fecha">${item.fecha}</span>
+        <span class="recuerdo-tag">${item.categoria}</span>
+      </div>
+      <h3 class="recuerdo-titulo">${item.titulo}</h3>
+      <p class="recuerdo-texto">${item.texto}</p>
+    `;
+    container.appendChild(card);
+  });
 }
 
-html {
-  scroll-behavior: smooth;
+// ===== MANEJO DE FILTROS =====
+document.querySelectorAll('.filtro-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('activo'));
+    e.target.classList.add('activo');
+    
+    const cat = e.target.getAttribute('data-categoria');
+    if (cat === 'todos') {
+      renderizarEscritos(listaEscritos);
+    } else {
+      const filtrados = listaEscritos.filter(post => post.categoria === cat);
+      renderizarEscritos(filtrados);
+    }
+  });
+});
+
+// Inicializar la carga del blog al abrir
+document.addEventListener('DOMContentLoaded', cargarBlog);
+
+// ===== LIGHTBOX =====
+function abrirLightbox(elemento) {
+  const src = elemento.querySelector('img').src;
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('activo');
+  document.body.style.overflow = 'hidden';
 }
 
-body {
-  background-color: var(--negro-tinta);
-  color: var(--marfil);
-  font-family: var(--font-cuerpo);
-  font-weight: 300;
-  overflow-x: hidden;
-  line-height: 1.6;
+function cerrarLightbox() {
+  document.getElementById('lightbox').classList.remove('activo');
+  document.body.style.overflow = '';
 }
 
-#particulas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
+// ===== NAVEGACIÓN ACTIVA (Puntos de Tracking) =====
+const dots = document.querySelectorAll('.dot');
+const secciones = document.querySelectorAll('section');
 
-/* ===== NAVEGACIÓN LATERAL ===== */
-.nav-dots {
-  position: fixed;
-  right: 1.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 100;
-}
+const observerOptions = { threshold: 0.4 };
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const idSeccion = entry.target.getAttribute('id');
+      dots.forEach(dot => {
+        dot.classList.remove('activo');
+        if (dot.getAttribute('data-target') === idSeccion) {
+          dot.classList.add('activo');
+        }
+      });
+    }
+  });
+}, observerOptions);
 
-.dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: rgba(184, 148, 63, 0.25);
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.dot.activo {
-  background: var(--dorado-claro);
-  height: 22px;
-  border-radius: 4px;
-}
-
-/* ===== HERO SETUP ===== */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  position: relative;
-  padding: 2rem;
-  background: 
-    radial-gradient(ellipse at 50% 40%, var(--vino-medio) 0%, var(--negro-tinta) 75%);
-  z-index: 1;
-}
-
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.12;
-  mix-blend-mode: luminosity;
-  pointer-events: none;
-}
-
-.hero-dedicatoria {
-  font-size: 0.75rem;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  color: var(--rosado-ceniza);
-  margin-bottom: 1rem;
-}
-
-.hero-nombre {
-  font-family: var(--font-titulo);
-  font-size: clamp(2.5rem, 7vw, 5.5rem);
-  font-style: italic;
-  font-weight: 400;
-  color: var(--marfil);
-}
-
-.hero-nombre .acento {
-  color: var(--dorado-claro);
-  text-shadow: 0 0 15px rgba(212, 176, 96, 0.2);
-}
-
-.hero-linea {
-  width: 100px;
-  height: 1px;
-  background: linear-gradient(to right, transparent, var(--dorado-viejo), transparent);
-  margin: 2rem auto;
-}
-
-.hero-frase {
-  font-family: var(--font-carta);
-  font-style: italic;
-  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-  color: var(--marfil-apagado);
-  max-width: 600px;
-  line-height: 1.7;
-}
-
-.btn-scroll {
-  margin-top: 3rem;
-  color: var(--dorado-viejo);
-  font-size: 0.7rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  text-decoration: none;
-  opacity: 0.7;
-  transition: opacity 0.3s;
-}
-
-.btn-scroll:hover { opacity: 1; }
-
-/* ===== SECCIONES GENERALES ===== */
-.seccion {
-  padding: 6rem 1.5rem;
-  position: relative;
-  z-index: 1;
-}
-
-.seccion-oscura {
-  background: var(--vino-profundo);
-  border-top: 1px solid rgba(184, 148, 63, 0.08);
-  border-bottom: 1px solid rgba(184, 148, 63, 0.08);
-}
-
-.titulo-seccion {
-  font-family: var(--font-titulo);
-  font-style: italic;
-  font-size: clamp(2rem, 4vw, 3rem);
-  text-align: center;
-  margin-bottom: 0.5rem;
-}
-
-.subtitulo-seccion {
-  font-size: 0.7rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  text-align: center;
-  color: var(--dorado-viejo);
-  margin-bottom: 3.5rem;
-  opacity: 0.8;
-}
-
-/* ===== CONTROL DINÁMICO DEL BLOG ===== */
-.blog-filtros {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 3rem;
-  flex-wrap: wrap;
-}
-
-.filtro-btn {
-  background: transparent;
-  border: 1px solid rgba(184, 148, 63, 0.3);
-  color: var(--marfil-apagado);
-  padding: 0.4rem 1.2rem;
-  font-family: var(--font-cuerpo);
-  font-size: 0.85rem;
-  cursor: pointer;
-  border-radius: 20px;
-  transition: all 0.3s ease;
-}
-
-.filtro-btn:hover, .filtro-btn.activo {
-  background: var(--dorado-viejo);
-  color: var(--negro-tinta);
-  border-color: var(--dorado-viejo);
-}
-
-.recuerdos-lista {
-  max-width: 750px;
-  margin: 0 auto;
-}
-
-.recuerdo-card {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 2.5rem 0;
-  border-bottom: 1px solid rgba(184, 148, 63, 0.1);
-}
-
-.recuerdo-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.8rem;
-}
-
-.recuerdo-fecha {
-  color: var(--dorado-viejo);
-  letter-spacing: 0.1em;
-}
-
-.recuerdo-tag {
-  background: rgba(196, 144, 154, 0.15);
-  color: var(--rosado-palido);
-  padding: 2px 10px;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  border-radius: 4px;
-}
-
-.recuerdo-titulo {
-  font-family: var(--font-titulo);
-  font-size: 1.6rem;
-  font-weight: 400;
-  color: var(--marfil);
-  font-style: italic;
-}
-
-.recuerdo-texto {
-  font-family: var(--font-cuerpo);
-  font-size: 1.05rem;
-  line-height: 1.8;
-  color: var(--marfil-apagado);
-  text-align: justify;
-  white-space: pre-line; /* Mantiene saltos de línea de los poemas */
-}
-
-.loading-text {
-  text-align: center;
-  font-style: italic;
-  color: var(--rosado-ceniza);
-}
-
-/* ===== GALERÍA & VISOR SIMPLES ===== */
-.galeria-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 10px;
-  max-width: 950px;
-  margin: 0 auto;
-}
-
-.galeria-item {
-  position: relative;
-  aspect-ratio: 1;
-  overflow: hidden;
-  cursor: pointer;
-  border: 1px solid rgba(184, 148, 63, 0.1);
-}
-
-.galeria-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(40%) sepia(20%);
-  transition: transform 0.5s ease;
-}
-
-.galeria-item:hover img {
-  transform: scale(1.05);
-  filter: none;
-}
-
-.galeria-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(26, 10, 18, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.galeria-item:hover .galeria-overlay { opacity: 1; }
-
-.lightbox {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(13, 10, 14, 0.95);
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
-}
-.lightbox.activo { display: flex; }
-.lightbox img { max-width: 90%; max-height: 85%; border: 1px solid var(--dorado-viejo); }
-.lightbox-cerrar { position: absolute; top: 20px; right: 30px; color: white; font-size: 2rem; cursor: pointer; }
-
-/* ===== VIDEOS ===== */
-.videos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.video-wrapper {
-  background: var(--vino-medio);
-  padding: 10px;
-  border: 1px solid rgba(184, 148, 63, 0.2);
-}
-
-.video-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 150px;
-  background: rgba(13, 10, 14, 0.4);
-  text-decoration: none;
-  color: var(--marfil);
-  gap: 10px;
-  border: 1px dashed var(--dorado-viejo);
-}
-
-/* ===== CARTA FINAL ===== */
-.seccion-carta {
-  background: linear-gradient(to bottom, var(--negro-tinta), var(--vino-profundo));
-  text-align: center;
-}
-
-.carta-texto {
-  font-family: var(--font-carta);
-  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
-  max-width: 650px;
-  margin: 0 auto 2rem;
-  line-height: 1.9;
-  color: var(--marfil-apagado);
-}
-
-.carta-firma {
-  font-family: var(--font-titulo);
-  color: var(--dorado-claro);
-}
-
-.footer {
-  text-align: center;
-  padding: 2.5rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
-  color: rgba(184, 148, 63, 0.4);
-  border-top: 1px solid rgba(184, 148, 63, 0.05);
-}
-
-/* ===== RESPONSIVE DISPOSITIVOS MÓVILES ===== */
-@media (max-width: 768px) {
-  .nav-dots { display: none; }
-  .seccion { padding: 4rem 1rem; }
-  .recuerdo-texto { text-align: left; }
-}
+secciones.forEach(s => observer.observe(s));
