@@ -58,40 +58,78 @@
         <img id="lightbox-img" src="" alt="Foto ampliada" />
     </div>
 
+    <!-- ===== BLOG CON LOGIN Y CARTAS (Firebase) ===== -->
     <section class="seccion seccion-oscura" id="blog">
         <h2 class="titulo-seccion">Antología Personal</h2>
         <p class="subtitulo-seccion">Escritos, poemas y relatos constantes</p>
-        
-        <div class="blog-filtros">
-            <button class="filtro-btn activo" data-categoria="todos">Todos</button>
-            <button class="filtro-btn" data-categoria="Relato">Relatos</button>
-            <button class="filtro-btn" data-categoria="Poema">Poemas</button>
-            <button class="filtro-btn" data-categoria="Bitácora">Bitácoras</button>
+
+        <!-- Login (visible si no hay sesión) -->
+        <div id="zona-login">
+            <form id="form-login">
+                <input id="login-email" type="email" placeholder="Correo" required />
+                <input id="login-pass" type="password" placeholder="Contraseña" required />
+                <button type="submit">Entrar</button>
+                <p id="login-error" class="form-error"></p>
+            </form>
         </div>
 
-        <div class="recuerdos-lista" id="blog-container">
-            <div class="loading-text">Abriendo el tintero...</div>
+        <!-- Contenido privado (visible con sesión) -->
+        <div id="zona-privada" hidden>
+            <p class="sesion-barra"><span id="saludo"></span> · <button id="btn-salir" type="button" class="btn-mini">Salir</button></p>
+
+            <form id="form-carta">
+                <select id="carta-categoria">
+                    <option>Relato</option>
+                    <option>Poema</option>
+                    <option>Bitácora</option>
+                </select>
+                <input id="carta-titulo" placeholder="Título (opcional)" maxlength="120" />
+                <textarea id="carta-texto-input" rows="6" placeholder="Escribe tu carta…" required></textarea>
+                <button type="submit">Dejar carta</button>
+            </form>
+
+            <div class="blog-filtros">
+                <button class="filtro-btn activo" data-categoria="todos">Todos</button>
+                <button class="filtro-btn" data-categoria="Relato">Relatos</button>
+                <button class="filtro-btn" data-categoria="Poema">Poemas</button>
+                <button class="filtro-btn" data-categoria="Bitácora">Bitácoras</button>
+            </div>
+
+            <div class="recuerdos-lista" id="blog-container"></div>
         </div>
     </section>
 
+    <!-- ===== VIDEOS FIJOS + DEDICATORIAS YOUTUBE/SPOTIFY ===== -->
     <section class="seccion" id="videos">
         <h2 class="titulo-seccion">En movimiento</h2>
         <p class="subtitulo-seccion">Porque algunas cosas no caben en una foto</p>
+
         <div class="videos-grid">
             <div class="video-wrapper">
-                <video controls preload="metadata" poster="img/foto1.jpg">
+                <video controls preload="metadata" poster="img/Foto1.jpg">
                     <source src="videos/recuerdo1.mp4" type="video/mp4">
                     Tu navegador no soporta video HTML5.
                 </video>
-                <p class="video-caption">Nuestro prieer silencio sonaba así</p>
+                <p class="video-caption">Nuestro primer silencio sonaba así</p>
             </div>
             <div class="video-wrapper">
-                <a href="https://photos.app.goo.gl/58pGDxDEBWvkjDhy5" target="_blank" class="video-btn">
+                <a href="https://photos.app.goo.gl/58pGDxDEBWvkjDhy5" target="_blank" rel="noopener" class="video-btn">
                     <span class="video-play">▶</span>
                     <span class="video-btn-texto">Ver álbum completo</span>
                 </a>
                 <p class="video-caption">Nube de recuerdos compartidos</p>
             </div>
+        </div>
+
+        <div id="media-privada" hidden>
+            <h3 class="subtitulo-seccion" style="margin-top:60px">Canciones y videos dedicados</h3>
+            <form id="form-media">
+                <input id="media-url" type="url" placeholder="Enlace de YouTube o Spotify" required />
+                <input id="media-nota" placeholder="Dedicatoria (opcional)" maxlength="200" />
+                <button type="submit">Dedicar</button>
+                <p id="media-error" class="form-error"></p>
+            </form>
+            <div class="videos-grid" id="media-container"></div>
         </div>
     </section>
 
@@ -111,5 +149,6 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script type="module" src="js/mensajes.js"></script>
 </body>
 </html>
